@@ -25,6 +25,7 @@ const NetlifyForm = ({
 
   const handleSubmit = async () => {
     try {
+      console.log('handle submit')
       return await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -42,8 +43,10 @@ const NetlifyForm = ({
   const onSubmit = async (e) => {
     e.preventDefault()
     if ((preSubmit && (await preSubmit())) || !preSubmit) {
+      console.log('preSubmit done')
       if (await handleSubmit()) {
         if (postSubmit) {
+          console.log('go to postSubmit')
           postSubmit()
         }
       } else {
