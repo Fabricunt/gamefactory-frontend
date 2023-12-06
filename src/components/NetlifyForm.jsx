@@ -43,10 +43,8 @@ const NetlifyForm = ({
   const onSubmit = async (e) => {
     e.preventDefault()
     if ((preSubmit && (await preSubmit())) || !preSubmit) {
-      console.log('preSubmit done')
       if (await handleSubmit()) {
         if (postSubmit) {
-          console.log('go to postSubmit')
           postSubmit()
         }
       } else {
