@@ -287,6 +287,7 @@ export default function Map({
                       preSubmit={() => {
                         setSending(true)
                         setFinal(false)
+                        return true
                       }}
                       onError={() => {
                         setError(true)

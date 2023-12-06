@@ -25,8 +25,7 @@ const NetlifyForm = ({
 
   const handleSubmit = async () => {
     try {
-      console.log('handle submit')
-      return await fetch('/', {
+      const res = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encodeData({
@@ -35,6 +34,7 @@ const NetlifyForm = ({
           infoo: honey,
         }),
       })
+      return res.ok
     } catch (error) {
       return onError()
     }
