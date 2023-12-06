@@ -113,7 +113,6 @@ const Gallery = ({
                                 : activePages[el.id] * showCount,
                             )
                             .map((image, i) => {
-                              console.log(image)
                               return (
                                 <div
                                   key={image.id}
