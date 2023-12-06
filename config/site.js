@@ -1,4 +1,4 @@
-const { SITE_NAME: name, DEFAULT_LOCALE: lang } = process.env
+const { WEBSITE_NAME: name, DEFAULT_LOCALE: lang } = process.env
 
 module.exports = {
   robots: {

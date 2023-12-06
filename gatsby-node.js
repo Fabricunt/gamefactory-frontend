@@ -19,7 +19,7 @@ const allSHeroVideo = require('./src/queries/allSHeroVideo.js')
 const allSGalleryBanner = require('./src/queries/allSGalleryBanner.js')
 const allSText = require('./src/queries/allSText.js')
 
-const { DEFAULT_LOCALE: defaultLocale, SITE_URL: siteUrl, SITE_NAME: name } = process.env
+const { DEFAULT_LOCALE: defaultLocale, SITE_URL: siteUrl, WEBSITE_NAME: name } = process.env
 
 exports.createPages = async ({ graphql, actions: { createPage }, reporter }) => {
   const template = path.resolve('./src/templates/template.js')
