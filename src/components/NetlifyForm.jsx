@@ -63,17 +63,14 @@ const NetlifyForm = ({
         name={formName}
         onSubmit={onSubmit}
         data-netlify="true"
-        data-netlify-honeypot="bot-field"
         // eslint-disable-next-line react/no-unknown-property
         netlify-honeypot="infoo"
       >
-        <input type="hidden" name="form-name" value={formName} />
         {children}
       </form>
     )
   return (
-    <form data-netlify="true" data-netlify-honeypot="bot-field" {...props} onSubmit={onSubmit}>
-      <input type="hidden" name="form-name" value={formName} />
+    <form {...props} onSubmit={onSubmit}>
       {children}
       <p style={{ opacity: '0', position: 'absolute', top: '0', left: '0' }}>
         <input

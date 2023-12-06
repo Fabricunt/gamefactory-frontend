@@ -108,7 +108,7 @@ export default function Map({
       )}
       <MapWrapper>
         <MapContent ref={containerRef} showPopup={showPopup}>
-          {rendered && (
+          {(rendered || typeof window === 'undefined') && (
             <StaticMap
               width="100%"
               height="100%"
