@@ -30,8 +30,10 @@ const Gallery = ({
   const [containerRef, isOnScreen] = useElementOnScreen({
     root: null,
     rootMargin: '0px',
-    threshold: 0.1,
+    threshold: 0.01,
   })
+
+  console.log(isOnScreen)
   const gutter = useMedia(
     ['(max-width: 768px)'],
 
@@ -68,7 +70,7 @@ const Gallery = ({
   }, [isOnScreen])
 
   React.useEffect(() => {
-    if (typeof window !== undefined) {
+    if (typeof window !== undefined && galleries.filter((el) => el?.useModels).length > 0) {
       const script = document.createElement('script')
       script.src = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js'
       script.type = 'module'
@@ -102,7 +104,9 @@ const Gallery = ({
             <GalleryPanelsStack>
               {galleries.map((el) => (
                 <GalleryPanelsStackItem active={el.id === activeGallery} key={el.id}>
-                  <ResponsiveMasonry columnsCountBreakPoints={{ 320: 2, 768: 3 }}>
+                  <ResponsiveMasonry
+                    columnsCountBreakPoints={{ 320: 2, 768: el?.useModels ? 6 : 3 }}
+                  >
                     <Masonry gutter={gutter}>
                       {el?.useModels
                         ? el.models
