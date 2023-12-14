@@ -175,13 +175,7 @@ const Gallery = ({
                 : galleries.find((el) => el.id === activeGallery).images
             }
             closeHandler={setIsOpen}
-            showCounter={
-              galleries?.length === 1
-                ? galleries[0].useModels
-                  ? galleries[0].models.length
-                  : galleries[0].images.length
-                : activePages[activeGallery] * showCount
-            }
+            showCounter={activePages[activeGallery].length}
           />
         )}
       </GalleryContainer>
