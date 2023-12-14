@@ -6,7 +6,7 @@ const TeamSliderItemRole = styled.span`
   letter-spacing: 1.8px;
 
   ${({ theme }) => theme.breakpoints.down('md')} {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   ${({ theme }) => theme.breakpoints.between('md', 'lg')} {

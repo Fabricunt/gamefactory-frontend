@@ -59,9 +59,12 @@ const dynamicStyles = ({ theme, needCircle, hoverColor, color, variant = 'defaul
   `
     margin-right: 0;
     height: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     ${theme.breakpoints.down('md')} {
-        width: 13px;
+        width: 16px;
     }
 
     ${theme.breakpoints.between('md', 'xl')} {
@@ -70,6 +73,22 @@ const dynamicStyles = ({ theme, needCircle, hoverColor, color, variant = 'defaul
 
     ${theme.breakpoints.up('xl')} {
         width: 25px;
+    }`}
+
+    ${variant === 'map-footer' &&
+  `
+    margin-right: 0;
+
+    ${theme.breakpoints.down('md')} {
+        width: 30px;
+    }
+
+    ${theme.breakpoints.between('md', 'xl')} {
+        width: 35px;
+    }
+
+    ${theme.breakpoints.up('xl')} {
+        width: 40px;
     }`}
 `
 

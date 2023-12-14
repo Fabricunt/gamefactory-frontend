@@ -33,7 +33,6 @@ const Gallery = ({
     threshold: 0.01,
   })
 
-  console.log(isOnScreen)
   const gutter = useMedia(
     ['(max-width: 768px)'],
 
@@ -109,55 +108,41 @@ const Gallery = ({
                   >
                     <Masonry gutter={gutter}>
                       {el?.useModels
-                        ? el.models
-                            .slice(
-                              0,
-                              galleries?.length === 1
-                                ? galleries[0].models.length
-                                : activePages[el.id] * showCount,
+                        ? el.models.map((image, i) => {
+                            return (
+                              <div
+                                key={image.id}
+                                onClick={() => {
+                                  setCurrImg(i)
+                                  modalOpenHandler()
+                                }}
+                              >
+                                {image.previewImage ? (
+                                  <GalleryPanelsStackItemImage {...image.previewImage} />
+                                ) : typeof window !== 'undefined' ? (
+                                  <model-viewer
+                                    altText={image.altText}
+                                    src={image.modelFile.localFile.publicURL}
+                                    poster={image?.previewImage?.localFile?.publicURL}
+                                    shadow-intensity="1"
+                                  ></model-viewer>
+                                ) : null}
+                              </div>
                             )
-                            .map((image, i) => {
-                              return (
-                                <div
-                                  key={image.id}
-                                  onClick={() => {
-                                    setCurrImg(i)
-                                    modalOpenHandler()
-                                  }}
-                                >
-                                  {image.previewImage ? (
-                                    <GalleryPanelsStackItemImage {...image.previewImage} />
-                                  ) : typeof window !== 'undefined' ? (
-                                    <model-viewer
-                                      altText={image.altText}
-                                      src={image.modelFile.localFile.publicURL}
-                                      poster={image?.previewImage?.localFile?.publicURL}
-                                      shadow-intensity="1"
-                                    ></model-viewer>
-                                  ) : null}
-                                </div>
-                              )
-                            })
-                        : el.images
-                            .slice(
-                              0,
-                              galleries?.length === 1
-                                ? galleries[0].images.length
-                                : activePages[el.id] * showCount,
+                          })
+                        : el.images.map((image, i) => {
+                            return (
+                              <div
+                                key={image.id}
+                                onClick={() => {
+                                  setCurrImg(i)
+                                  modalOpenHandler()
+                                }}
+                              >
+                                <GalleryPanelsStackItemImage {...image} />
+                              </div>
                             )
-                            .map((image, i) => {
-                              return (
-                                <div
-                                  key={image.id}
-                                  onClick={() => {
-                                    setCurrImg(i)
-                                    modalOpenHandler()
-                                  }}
-                                >
-                                  <GalleryPanelsStackItemImage {...image} />
-                                </div>
-                              )
-                            })}
+                          })}
                     </Masonry>
                   </ResponsiveMasonry>
                 </GalleryPanelsStackItem>
@@ -165,7 +150,7 @@ const Gallery = ({
             </GalleryPanelsStack>
           </div>
         </Container>
-        {((!buttonUrl && galleries?.length === 1
+        {/* {((!buttonUrl && galleries?.length === 1
           ? false
           : activePages[activeGallery] * showCount <=
             galleries.find((el) => el.id === activeGallery).images.length) ||
@@ -178,7 +163,7 @@ const Gallery = ({
               {buttonText}
             </Button>
           </GalleryBottom>
-        )}
+        )} */}
         {rendered && (
           <GalleryModalViewer
             isOpen={isOpen}

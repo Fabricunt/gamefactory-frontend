@@ -8,7 +8,7 @@ const FooterCopyrightWrapper = styled.div`
   letter-spacing: 1px;
 
   ${({ theme }) => theme.breakpoints.down('md')} {
-    font-size: 9px;
+    font-size: 12px;
   }
 
   ${({ theme }) => theme.breakpoints.between('md', 'xl')} {

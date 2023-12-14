@@ -4,6 +4,7 @@ const breakpoints = {
     xl: '1280',
     lg: '992',
     md: '768',
+    mapbox: '641',
     sm: '480',
   },
 }

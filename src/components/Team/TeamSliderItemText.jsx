@@ -4,7 +4,7 @@ const TeamSliderItemText = styled.p`
   line-height: 1.13;
 
   ${({ theme }) => theme.breakpoints.down('md')} {
-    fontsize: 10px;
+    fontsize: 12px;
     margin-bottom: 10px;
   }
 

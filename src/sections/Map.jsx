@@ -386,7 +386,7 @@ export default function Map({
                       hovercolor="#222222"
                       needcircle="false"
                       icon="House"
-                      variant={'map'}
+                      variant={'map-footer'}
                     />
                     <span>{adress}</span>
                   </MapPopupFooter>
