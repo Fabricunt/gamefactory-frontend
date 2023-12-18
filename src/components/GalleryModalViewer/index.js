@@ -20,6 +20,7 @@ export default function GalleryModalViewer({
 }) {
   const swiperRef = React.useRef(null)
   const [autoplay, setAutoplay] = React.useState(null)
+  const [availableAnimations, setAvailableAnimations] = React.useState(null)
   const [thumbsSwiper, setThumbsSwiper] = React.useState(null)
   const [zoomed, setZoomed] = React.useState(false)
   const isLargerThan768 = useMedia(['(min-width: 768px)'], [true], false)
@@ -141,6 +142,25 @@ export default function GalleryModalViewer({
             </GalleryModalViewerButtonIcon>
           </GalleryModalViewerButtonWrapper>
 
+          {availableAnimations && (
+            <GalleryModalViewerButtonWrapper
+              onClick={() => {
+                if (swiperRef.current && swiperRef.current.swiper) {
+                  document
+                    .getElementById(swiperRef.current.swiper.realIndex)
+                    .play({ repetitions: 0, pingpong: false })
+                }
+              }}
+            >
+              <GalleryModalViewerButtonIcon showIcon={autoplay}>
+                <PauseIcon />a
+              </GalleryModalViewerButtonIcon>
+              <GalleryModalViewerButtonIcon showIcon={!autoplay}>
+                <PlayIcon />a
+              </GalleryModalViewerButtonIcon>
+            </GalleryModalViewerButtonWrapper>
+          )}
+
           {!useModels && (
             <GalleryModalViewerButtonWrapper onClick={zoomToggleHandler}>
               <GalleryModalViewerButtonIcon showIcon={zoomed}>
@@ -175,6 +195,11 @@ export default function GalleryModalViewer({
           zoom={{
             toggle: isLargerThan768,
           }}
+          onSlideChange={(swiper) => {
+            setAvailableAnimations(
+              document?.getElementById(swiper.realIndex)?.availableAnimations?.length > 0,
+            )
+          }}
           onSliderMove={() => {
             if (autoplay) {
               setAutoplay(false)
@@ -195,12 +220,13 @@ export default function GalleryModalViewer({
             disableOnInteraction: false,
           }}
         >
-          {photos?.slice(0, showCounter).map((img) => {
+          {photos?.slice(0, showCounter).map((img, idx) => {
             return (
               <SwiperSlide key={img.id}>
                 {useModels ? (
                   typeof window !== 'undefined' ? (
                     <model-viewer
+                      id={idx}
                       alt={img.altText}
                       src={img.modelFile.localFile.publicURL}
                       poster={img?.previewImage?.localFile?.publicURL}
