@@ -35,6 +35,20 @@ export default function GalleryModalViewer({
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.slideTo(currImg + 1, 1, true)
     }
+
+    const invokeTimemout = (i) => {
+      setTimeout(() => {
+        if (document?.getElementById(currImg)?.availableAnimations?.length > 0) {
+          setAvailableAnimations(document?.getElementById(currImg)?.availableAnimations?.length > 0)
+        } else {
+          if (i < 5) {
+            invokeTimemout(i + 1)
+          }
+        }
+      }, 10)
+    }
+
+    invokeTimemout(1)
   }, [isOpen, currImg])
 
   React.useEffect(() => {
@@ -127,20 +141,22 @@ export default function GalleryModalViewer({
     <>
       <GalleryModalViewerWrapper isOpen={isOpen}>
         <GalleryModalViewerControls>
-          <GalleryModalViewerButtonWrapper
-            onClick={() => {
-              if (autoplay) setAutoplay(false)
-              else setAutoplay(true)
-              autoplayHandler()
-            }}
-          >
-            <GalleryModalViewerButtonIcon showIcon={autoplay}>
-              <PauseIcon />
-            </GalleryModalViewerButtonIcon>
-            <GalleryModalViewerButtonIcon showIcon={!autoplay}>
-              <PlayIcon />
-            </GalleryModalViewerButtonIcon>
-          </GalleryModalViewerButtonWrapper>
+          {!useModels && (
+            <GalleryModalViewerButtonWrapper
+              onClick={() => {
+                if (autoplay) setAutoplay(false)
+                else setAutoplay(true)
+                autoplayHandler()
+              }}
+            >
+              <GalleryModalViewerButtonIcon showIcon={autoplay}>
+                <PauseIcon />
+              </GalleryModalViewerButtonIcon>
+              <GalleryModalViewerButtonIcon showIcon={!autoplay}>
+                <PlayIcon />
+              </GalleryModalViewerButtonIcon>
+            </GalleryModalViewerButtonWrapper>
+          )}
 
           {availableAnimations && (
             <GalleryModalViewerButtonWrapper
@@ -152,11 +168,8 @@ export default function GalleryModalViewer({
                 }
               }}
             >
-              <GalleryModalViewerButtonIcon showIcon={autoplay}>
-                <PauseIcon />a
-              </GalleryModalViewerButtonIcon>
-              <GalleryModalViewerButtonIcon showIcon={!autoplay}>
-                <PlayIcon />a
+              <GalleryModalViewerButtonIcon showIcon={true}>
+                <PlayIcon />
               </GalleryModalViewerButtonIcon>
             </GalleryModalViewerButtonWrapper>
           )}
