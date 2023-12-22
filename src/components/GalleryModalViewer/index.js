@@ -34,6 +34,8 @@ export default function GalleryModalViewer({
     if (isOpen) document.addEventListener('keydown', onKeyDown)
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.slideTo(currImg + 1, 1, true)
+      swiperRef.current.swiper.allowTouchMove = !useModels
+      swiperRef.current.swiper.update()
     }
 
     const invokeTimemout = (i) => {
@@ -176,10 +178,10 @@ export default function GalleryModalViewer({
 
           {!useModels && (
             <GalleryModalViewerButtonWrapper onClick={zoomToggleHandler}>
-              <GalleryModalViewerButtonIcon showIcon={zoomed}>
+              <GalleryModalViewerButtonIcon showIcon={!zoomed}>
                 <ScaleUpIcon />
               </GalleryModalViewerButtonIcon>
-              <GalleryModalViewerButtonIcon showIcon={!zoomed}>
+              <GalleryModalViewerButtonIcon showIcon={zoomed}>
                 <ScaleDownIcon />
               </GalleryModalViewerButtonIcon>
             </GalleryModalViewerButtonWrapper>
@@ -207,6 +209,14 @@ export default function GalleryModalViewer({
           ref={swiperRef}
           zoom={{
             toggle: isLargerThan768,
+          }}
+          onZoomChange={(scale) => {
+            if (scale === 3) {
+              setZoomed(true)
+            }
+            if (scale === 1) {
+              setZoomed(false)
+            }
           }}
           onSlideChange={(swiper) => {
             setAvailableAnimations(
@@ -253,7 +263,7 @@ export default function GalleryModalViewer({
                     <GalleryModalViewerImage
                       className="swiper-zoom-target"
                       {...img}
-                      objectFit="cover"
+                      objectFit="scale-down"
                     />
                   </div>
                 )}
