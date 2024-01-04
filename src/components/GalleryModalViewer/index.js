@@ -164,13 +164,32 @@ export default function GalleryModalViewer({
             <GalleryModalViewerButtonWrapper
               onClick={() => {
                 if (swiperRef.current && swiperRef.current.swiper) {
-                  document
-                    .getElementById(swiperRef.current.swiper.realIndex)
-                    .play({ repetitions: 0, pingpong: false })
+                  if (document.getElementById(swiperRef.current.swiper.realIndex).paused) {
+                    document
+                      .getElementById(swiperRef.current.swiper.realIndex)
+                      .play({ repetitions: 0, pingpong: false })
+                  } else {
+                    document.getElementById(swiperRef.current.swiper.realIndex).pause()
+                  }
                 }
               }}
             >
-              <GalleryModalViewerButtonIcon showIcon={true}>
+              <GalleryModalViewerButtonIcon
+                showIcon={
+                  swiperRef.current &&
+                  swiperRef.current.swiper &&
+                  !document.getElementById(swiperRef.current.swiper.realIndex).paused
+                }
+              >
+                <PauseIcon />
+              </GalleryModalViewerButtonIcon>
+              <GalleryModalViewerButtonIcon
+                showIcon={
+                  swiperRef.current &&
+                  swiperRef.current.swiper &&
+                  document.getElementById(swiperRef.current.swiper.realIndex).paused
+                }
+              >
                 <PlayIcon />
               </GalleryModalViewerButtonIcon>
             </GalleryModalViewerButtonWrapper>
@@ -256,6 +275,7 @@ export default function GalleryModalViewer({
                       shadow-intensity="1"
                       camera-controls
                       touch-action="pan-y"
+                      autoplay="true"
                     ></model-viewer>
                   ) : null
                 ) : (
