@@ -229,12 +229,12 @@ export default function GalleryModalViewer({
           zoom={{
             toggle: isLargerThan768,
           }}
-          onZoomChange={(scale) => {
-            if (scale === 3) {
-              setZoomed(true)
-            }
-            if (scale === 1) {
+          onZoomChange={(swiper) => {
+            if (swiper.zoom.scale === 3) {
               setZoomed(false)
+            }
+            if (swiper.zoom.scale === 1) {
+              setZoomed(true)
             }
           }}
           onSlideChange={(swiper) => {
