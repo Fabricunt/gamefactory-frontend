@@ -18,22 +18,6 @@ const MapWrapper = styled.section`
   ${({ theme }) => theme.breakpoints.up('xl')} {
     padding-bottom: 40%;
   }
-
-  ${({ theme }) => theme.breakpoints.down('mapbox')} {
-    .mapboxgl-ctrl-bottom-right {
-      left: -4px !important;
-      right: auto !important;
-      bottom: 30px !important;
-    }
-  }
-
-  ${({ theme }) => theme.breakpoints.up('mapbox')} {
-    .mapboxgl-ctrl-bottom-right {
-      left: 100px !important;
-      right: auto !important;
-      bottom: 7px !important;
-    }
-  }
 `
 
 /*  ratio={[3 / 4, 1 / 1, 16 / 9, 25 / 9, 25 / 9]}  */

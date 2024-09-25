@@ -33,7 +33,7 @@ const GalleryPanelsStackItem = styled.div`
 
   & model-viewer {
     width: 100%;
-    height: 200px;
+    height: 100%;
   }
 
   ${dynamicStyles};

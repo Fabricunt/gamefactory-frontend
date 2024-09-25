@@ -16,6 +16,7 @@ import BlogSwiper from './BlogSwiper'
 import HeroVideo from './HeroVideo'
 import GalleryBanner from './GalleryBanner'
 import Text from './Text'
+import GameOnline from './GameOnline'
 
 export {
   Article,
@@ -36,4 +37,5 @@ export {
   HeroVideo,
   GalleryBanner,
   Text,
+  GameOnline,
 }

@@ -7,7 +7,7 @@ const { robots, pwa } = require('./config/site')
 const { SITE_URL: siteUrl, SITEMAP_EXCLUDES: sitemapExcludes } = process.env
 
 const strapiConfig = {
-  apiURL: process.env.STRAPI_API_URL || 'http://localhost:1337',
+  apiURL: process.env.STRAPI_API_URL || 'http://127.0.0.1:1338',
   accessToken: process.env.STRAPI_TOKEN,
   collectionTypes: [
     {
@@ -100,6 +100,7 @@ const strapiConfig = {
     's-blog-swiper',
     's-hero-video',
     's-text',
+    'section-image-link',
     'section-not-found',
     {
       singularName: 's-map',

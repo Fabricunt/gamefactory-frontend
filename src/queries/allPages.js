@@ -25,6 +25,11 @@ const allPages = `
             id
           }
         }
+        ... on STRAPI__COMPONENT_SECTIONS_GAME_ONLINE_2 {
+          section {
+            id
+          }
+        }
         ${blockSections}
       }
       name
