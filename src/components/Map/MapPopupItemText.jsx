@@ -6,7 +6,7 @@ const MapPopupItemText = styled.div`
   line-height: 18px;
 
   ${({ theme }) => theme.breakpoints.down('md')} {
-    font-size: 12px;
+    font-size: 10px;
   }
 
   ${({ theme }) => theme.breakpoints.between('md', 'xl')} {

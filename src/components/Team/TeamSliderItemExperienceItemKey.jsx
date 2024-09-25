@@ -5,7 +5,7 @@ const TeamSliderItemExperienceItemKey = styled.span`
   letter-spacing: 1.1px;
 
   ${({ theme }) => theme.breakpoints.down('md')} {
-    font-size: 12px;
+    font-size: 10px;
   }
 
   ${({ theme }) => theme.breakpoints.between('md', 'lg')} {

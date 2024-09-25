@@ -6,17 +6,17 @@ const MapPopupFooter = styled.div`
   align-items: center;
 
   ${({ theme }) => theme.breakpoints.down('md')} {
-    font-size: 12px;
+    font-size: 9px;
     gap: 10px;
   }
 
   ${({ theme }) => theme.breakpoints.between('md', 'xl')} {
-    font-size: 13px;
+    font-size: 11px;
     gap: 15px;
   }
 
   ${({ theme }) => theme.breakpoints.up('xl')} {
-    font-size: 14px;
+    font-size: 13px;
     gap: 20px;
   }
 `

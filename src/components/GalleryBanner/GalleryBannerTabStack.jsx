@@ -7,6 +7,7 @@ const GalleryBannerTabStack = styled.section`
   height: 100%;
   position: absolute;
   z-index: 1;
+  backdrop-filter: blur(2px);
   padding: 30px 0;
 `
 

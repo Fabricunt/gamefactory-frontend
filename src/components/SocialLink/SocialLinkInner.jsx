@@ -28,10 +28,6 @@ const dynamicStyles = ({ theme, variant = 'default' }) => css`
 
 ${variant === 'map' &&
   `
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
     ${theme.breakpoints.down('md')} {
         width: 13px;
         height: 100%;

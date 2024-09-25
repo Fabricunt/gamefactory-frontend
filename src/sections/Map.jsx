@@ -62,7 +62,7 @@ export default function Map({
       email: '',
       message: '',
     },
-    isInitialValid: false,
+    validateOnMount: false,
     validationSchema,
   })
 
@@ -106,106 +106,9 @@ export default function Map({
           <Title as="h2">{sectionTitle}</Title>
         </MapHeading>
       )}
-      {typeof window === 'undefined' && (
-        <MapPopupFormContent
-          showForm={showForm}
-          formName="ContactsForm"
-          formValues={formik.values}
-          preSubmit={() => {
-            setSending(true)
-            setFinal(false)
-            return true
-          }}
-          onError={() => {
-            setError(true)
-            setSending(false)
-            setFinal(false)
-          }}
-          postSubmit={() => {
-            formik.resetForm()
-            setSending(false)
-            setFinal(true)
-          }}
-        >
-          {typeof window === 'undefined' && (
-            <MapPopupFormInput type="text" key="formId" name="formId" />
-          )}
-          <MapPopupFormInput
-            type="email"
-            key="email"
-            name="email"
-            error={formik.errors.email}
-            onChange={formik.handleChange}
-            value={formik.values.email}
-            required
-            placeholder="Enter your email"
-          />
-          <MapPopupFormInput
-            as="textarea"
-            error={formik.errors.message}
-            onChange={formik.handleChange}
-            value={formik.values.message || ''}
-            type="text"
-            key="message"
-            name="message"
-            required
-            rows="2"
-            placeholder="Enter your comments"
-          />
-          <MapPopupFormButton id="contacts-form-submit" type="submit">
-            Submit
-          </MapPopupFormButton>
-          {(sending || final || error) && (
-            <div
-              style={{
-                position: 'absolute',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                height: '100%',
-                background: '#fff',
-                top: 0,
-              }}
-            >
-              {error ? (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                    gap: '15px',
-                  }}
-                >
-                  <MapPopupItemText>Couldn't send the form.</MapPopupItemText>
-                  <MapPopupItemText>Please, try again</MapPopupItemText>
-                  <MapPopupFormButton onClick={() => setError(false)}>Close</MapPopupFormButton>
-                </div>
-              ) : null}
-              {sending ? <MapPopupFormSending /> : null}
-              {final ? (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                    gap: '15px',
-                  }}
-                >
-                  <MapPopupFormSuccess />
-                  <MapPopupItemText>Your form submited</MapPopupItemText>
-                  <MapPopupFormButton onClick={() => setFinal(false)}>Close</MapPopupFormButton>
-                </div>
-              ) : null}
-            </div>
-          )}
-        </MapPopupFormContent>
-      )}
       <MapWrapper>
         <MapContent ref={containerRef} showPopup={showPopup}>
-          {(rendered || typeof window === 'undefined') && (
+          {rendered && (
             <StaticMap
               width="100%"
               height="100%"
@@ -281,13 +184,12 @@ export default function Map({
                       <span>Contact us</span>
                     </MapPopupFormContactUs>
                     <MapPopupFormContent
-                      showForm={showForm}
+                      // showForm={showForm}
                       formName="ContactsForm"
                       formValues={formik.values}
                       preSubmit={() => {
                         setSending(true)
                         setFinal(false)
-                        return true
                       }}
                       onError={() => {
                         setError(true)
@@ -386,7 +288,7 @@ export default function Map({
                       hovercolor="#222222"
                       needcircle="false"
                       icon="House"
-                      variant={'map-footer'}
+                      variant={'map'}
                     />
                     <span>{adress}</span>
                   </MapPopupFooter>

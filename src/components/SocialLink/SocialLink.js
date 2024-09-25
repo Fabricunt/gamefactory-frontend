@@ -15,13 +15,17 @@ const SocialLink = ({
   ...props
 }) => {
   const Icon = Icons[`${icon}Icon`]
+  const hoverStyle = `&:hover {
+    background-color: ${needCircle ? color : 'transparent'};
+    ${hoverColor ? `color: ${hoverColor}` : ''};
+  }`
+
   return (
     <SocialLinkWrapper
       as={url ? Link : 'div'}
       to={url}
       color={color}
-      hoverColor={hoverColor}
-      needCircle={needCircle}
+      styles={hoverStyle}
       target="_blank"
       variant={variant}
       aria-label={ariaLabel}
