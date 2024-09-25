@@ -1,13 +1,10 @@
 import styled from '@emotion/styled'
 import { css } from '@emotion/react'
 
-const dynamicStyles = ({ theme, needCircle, hoverColor, color, variant = 'default' }) => css`
+const dynamicStyles = ({ theme, styles, color, variant = 'default'}) => css`
   color: ${color};
 
-  &:hover {
-    background-color: ${needCircle ? color : 'transparent'};
-    ${hoverColor ? `color: ${hoverColor}` : ''};
-  }
+  ${styles}
 
   ${variant === 'footer' &&
   `
@@ -59,12 +56,9 @@ const dynamicStyles = ({ theme, needCircle, hoverColor, color, variant = 'defaul
   `
     margin-right: 0;
     height: max-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     ${theme.breakpoints.down('md')} {
-        width: 16px;
+        width: 13px;
     }
 
     ${theme.breakpoints.between('md', 'xl')} {
@@ -73,22 +67,6 @@ const dynamicStyles = ({ theme, needCircle, hoverColor, color, variant = 'defaul
 
     ${theme.breakpoints.up('xl')} {
         width: 25px;
-    }`}
-
-    ${variant === 'map-footer' &&
-  `
-    margin-right: 0;
-
-    ${theme.breakpoints.down('md')} {
-        width: 30px;
-    }
-
-    ${theme.breakpoints.between('md', 'xl')} {
-        width: 35px;
-    }
-
-    ${theme.breakpoints.up('xl')} {
-        width: 40px;
     }`}
 `
 

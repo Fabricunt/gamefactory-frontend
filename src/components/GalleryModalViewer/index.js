@@ -16,41 +16,22 @@ export default function GalleryModalViewer({
   useModels,
   currImg,
   closeHandler,
-  showCounter,
 }) {
   const swiperRef = React.useRef(null)
-  const [autoplay, setAutoplay] = React.useState(null)
-  const [availableAnimations, setAvailableAnimations] = React.useState(null)
+  const [autoplay, setAutoplay] = React.useState(false)
   const [thumbsSwiper, setThumbsSwiper] = React.useState(null)
   const [zoomed, setZoomed] = React.useState(false)
   const isLargerThan768 = useMedia(['(min-width: 768px)'], [true], false)
-  const onKeyDown = (e) => {
-    if (e.key === 'Escape' && isOpen) {
-      modalCloseHandler()
-    }
-  }
+  const onKeyDown = (e) => (e.key === 'Escape' && isOpen) && modalCloseHandler()
 
   React.useEffect(() => {
     if (isOpen) document.addEventListener('keydown', onKeyDown)
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.slideTo(currImg + 1, 1, true)
-      swiperRef.current.swiper.allowTouchMove = !useModels
-      swiperRef.current.swiper.update()
     }
-
-    const invokeTimemout = (i) => {
-      setTimeout(() => {
-        if (document?.getElementById(currImg)?.availableAnimations?.length > 0) {
-          setAvailableAnimations(document?.getElementById(currImg)?.availableAnimations?.length > 0)
-        } else {
-          if (i < 5) {
-            invokeTimemout(i + 1)
-          }
-        }
-      }, 10)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
     }
-
-    invokeTimemout(1)
   }, [isOpen, currImg])
 
   React.useEffect(() => {
@@ -63,10 +44,13 @@ export default function GalleryModalViewer({
       swiperRef.current.swiper.autoplay.stop()
       setAutoplay(false)
     }
+
   }, [swiperRef.current?.swiper.autoplay.running])
 
   React.useEffect(() => {
+    if(!useModels) setAutoplay(false)
     if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.allowTouchMove = !useModels
       swiperRef.current.swiper.autoplay.stop()
       swiperRef.current.swiper.zoom.out()
       document
@@ -99,7 +83,8 @@ export default function GalleryModalViewer({
   }
 
   const modalCloseHandler = () => {
-    setAutoplay(false)
+    if(!useModels) setAutoplay(false)
+
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.autoplay.stop()
       swiperRef.current.swiper.zoom.out()
@@ -127,7 +112,7 @@ export default function GalleryModalViewer({
       swiperRef.current.swiper.autoplay.stop()
     }
     setZoomed(false)
-    setAutoplay(false)
+    if(!useModels) setAutoplay(false)
   }
 
   const zoomToggleHandler = () => {
@@ -139,61 +124,33 @@ export default function GalleryModalViewer({
     setAutoplay(false)
   }
 
+  const animationModelMove = (autoplay) => {
+    const swiper = swiperRef.current.swiper
+    swiper.slides.forEach(slide => {
+      const model = slide.childNodes[0]
+      model.toggleAttribute('autoplay')
+      autoplay ? model.play() : model.pause()
+    })
+  }
+
   return (
     <>
       <GalleryModalViewerWrapper isOpen={isOpen}>
         <GalleryModalViewerControls>
-          {!useModels && (
-            <GalleryModalViewerButtonWrapper
-              onClick={() => {
-                if (autoplay) setAutoplay(false)
-                else setAutoplay(true)
-                autoplayHandler()
-              }}
-            >
-              <GalleryModalViewerButtonIcon showIcon={autoplay}>
-                <PauseIcon />
-              </GalleryModalViewerButtonIcon>
-              <GalleryModalViewerButtonIcon showIcon={!autoplay}>
-                <PlayIcon />
-              </GalleryModalViewerButtonIcon>
-            </GalleryModalViewerButtonWrapper>
-          )}
-
-          {availableAnimations && (
-            <GalleryModalViewerButtonWrapper
-              onClick={() => {
-                if (swiperRef.current && swiperRef.current.swiper) {
-                  if (document.getElementById(swiperRef.current.swiper.realIndex).paused) {
-                    document
-                      .getElementById(swiperRef.current.swiper.realIndex)
-                      .play({ repetitions: 0, pingpong: false })
-                  } else {
-                    document.getElementById(swiperRef.current.swiper.realIndex).pause()
-                  }
-                }
-              }}
-            >
-              <GalleryModalViewerButtonIcon
-                showIcon={
-                  swiperRef.current &&
-                  swiperRef.current.swiper &&
-                  !document.getElementById(swiperRef.current.swiper.realIndex).paused
-                }
-              >
-                <PauseIcon />
-              </GalleryModalViewerButtonIcon>
-              <GalleryModalViewerButtonIcon
-                showIcon={
-                  swiperRef.current &&
-                  swiperRef.current.swiper &&
-                  document.getElementById(swiperRef.current.swiper.realIndex).paused
-                }
-              >
-                <PlayIcon />
-              </GalleryModalViewerButtonIcon>
-            </GalleryModalViewerButtonWrapper>
-          )}
+          <GalleryModalViewerButtonWrapper
+            onClick={() => {
+              setAutoplay(!autoplay)
+              !useModels ? autoplayHandler() : animationModelMove(autoplay)
+              }
+            }
+          >
+            <GalleryModalViewerButtonIcon showIcon={!useModels ? autoplay : !autoplay}>
+              <PauseIcon />
+            </GalleryModalViewerButtonIcon>
+            <GalleryModalViewerButtonIcon showIcon={!useModels ? !autoplay : autoplay}>
+              <PlayIcon />
+            </GalleryModalViewerButtonIcon>
+          </GalleryModalViewerButtonWrapper>
 
           {!useModels && (
             <GalleryModalViewerButtonWrapper onClick={zoomToggleHandler}>
@@ -221,27 +178,11 @@ export default function GalleryModalViewer({
           slidesPerView={1}
           centeredSlides={true}
           navigation={true}
-          allowTouchMove={!useModels}
           loop={true}
           modules={[Thumbs, Navigation, Zoom, Autoplay]}
           thumbs={{ swiper: thumbsSwiper }}
           ref={swiperRef}
-          zoom={{
-            toggle: isLargerThan768,
-          }}
-          onZoomChange={(swiper) => {
-            if (swiper.zoom.scale === 3) {
-              setZoomed(false)
-            }
-            if (swiper.zoom.scale === 1) {
-              setZoomed(true)
-            }
-          }}
-          onSlideChange={(swiper) => {
-            setAvailableAnimations(
-              document?.getElementById(swiper.realIndex)?.availableAnimations?.length > 0,
-            )
-          }}
+          zoom={{toggle: isLargerThan768}}
           onSliderMove={() => {
             if (autoplay) {
               setAutoplay(false)
@@ -254,7 +195,7 @@ export default function GalleryModalViewer({
               swiperRef.current.swiper.zoom.out()
             }
           }}
-          speed={1000}
+          speed={600}
           autoplay={{
             delay: 3000,
             pauseOnMouseEnter: false,
@@ -262,28 +203,30 @@ export default function GalleryModalViewer({
             disableOnInteraction: false,
           }}
         >
-          {photos?.slice(0, showCounter).map((img, idx) => {
+          {photos?.map((img, index) => {
             return (
               <SwiperSlide key={img.id}>
                 {useModels ? (
                   typeof window !== 'undefined' ? (
                     <model-viewer
-                      id={idx}
+                      id={index}
+                      class='model'
+                      autoplay
                       alt={img.altText}
                       src={img.modelFile.localFile.publicURL}
                       poster={img?.previewImage?.localFile?.publicURL}
                       shadow-intensity="1"
                       camera-controls
                       touch-action="pan-y"
-                      autoplay="true"
                     ></model-viewer>
                   ) : null
                 ) : (
                   <div className="swiper-zoom-container">
                     <GalleryModalViewerImage
+                      draggable={false}
                       className="swiper-zoom-target"
                       {...img}
-                      objectFit="scale-down"
+                      objectFit="contain"
                     />
                   </div>
                 )}
@@ -303,7 +246,7 @@ export default function GalleryModalViewer({
           freeMode
           watchslidesvisibility="true"
         >
-          {photos?.slice(0, showCounter).map((img) => {
+          {photos?.map((img) => {
             return (
               <SwiperSlide key={img.id}>
                 {useModels ? (
@@ -322,15 +265,7 @@ export default function GalleryModalViewer({
         </Swiper>
       </GalleryModalViewerWrapper>
 
-      {isOpen && (
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-      body {overflow: hidden}
-    `,
-          }}
-        />
-      )}
+      {isOpen && (<style dangerouslySetInnerHTML={{__html: `body {overflow: hidden}`,}}/>)}
     </>
   )
 }
